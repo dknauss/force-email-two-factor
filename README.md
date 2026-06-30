@@ -218,6 +218,44 @@ the line (or set it to `false`) to re-enable enforcement.
 
 ---
 
+## Compatibility & interaction with other 2FA setups
+
+This plugin works **exclusively through the [Two Factor](https://wordpress.org/plugins/two-factor/)
+plugin** — it hooks Two Factor's filters and the `Two_Factor_Email` provider, and
+does nothing else.
+
+- **Two Factor already active (with or without the WebAuthn provider):** fully
+  additive. The Email provider is *appended* to each user's enabled providers, never
+  substituted. Users who already set up TOTP, WebAuthn/passkeys, or backup codes
+  **keep them as their primary factor**; email is just added as an always-available
+  floor. Existing per-user settings are untouched — deactivating this plugin reverts
+  everyone to exactly what they had.
+
+- **Users with no 2FA yet:** email enforcement applies at their next login.
+
+- **Two Factor not active:** on WordPress 6.5+ the `Requires Plugins` header
+  **blocks activation** until Two Factor is installed and active. On older
+  WordPress (header ignored) or if Two Factor is later disabled, the runtime
+  `class_exists( 'Two_Factor_Email' )` guard makes the plugin a **safe no-op** — no
+  errors, no enforcement.
+
+- **A different 2FA plugin** (Wordfence Login Security, WP 2FA, miniOrange, Duo,
+  etc.): this plugin **does not integrate with or affect them** — they don't expose
+  Two Factor's hooks. A competing 2FA plugin also does **not** satisfy the
+  `Requires Plugins: two-factor` dependency, so on WP 6.5+ this plugin can't be
+  activated without the actual Two Factor plugin present.
+
+> ⚠️ **Don't run two 2FA enforcement stacks at once.** If both Two Factor (with this
+> plugin) and a separate 2FA plugin gate the login flow, you risk double prompts or
+> lockouts. Pick one stack; this plugin assumes that stack is Two Factor.
+
+Edge case: if an admin has deliberately unregistered the Email provider via the
+`two_factor_providers` filter, the provider class still exists, so email is still
+appended — but Two Factor won't resolve it as a usable factor, so email enforcement
+won't actually take effect.
+
+---
+
 ## Development
 
 > **PHP version:** the *plugin* supports PHP 7.2+ (enforced by the lint matrix and
