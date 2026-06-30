@@ -18,10 +18,10 @@
 
     <!-- WordPress coding standards: style + security best practices. -->
     <config name="minimum_wp_version" value="6.5"/>
-    <rule ref="WordPress-Extra">
-        <!-- No user-facing translatable strings in this plugin. -->
-        <exclude name="WordPress.WP.I18n"/>
-    </rule>
+    <rule ref="WordPress-Extra"/>
+
+    <!-- Validate that translatable strings use the plugin's text domain. -->
+    <config name="text_domain" value="force-email-two-factor"/>
 
     <!-- All globals this plugin defines use these prefixes. -->
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
