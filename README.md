@@ -8,17 +8,17 @@
 
 This is a Multisite compatible, single-purpose, WordPress utility plugin with no admin user interface. It's intended to help site owners and maintainers rapidly roll out and enforce a mandatory two-factor authentication policy on WordPress sites or networks that may have many users — in the simplest and least disruptive way.
 
-Require Email 2FA imposes three requirements site- or network-wide: 
+Require Email 2FA imposes three requirements site- or network-wide:
 
 1. The [Two Factor plugin](https://wordpress.org/plugins/two-factor/) must be installed and activated.
-2. All users must use Two-Factor to log in. (Exceptions can be set with a constant or filter.) 
+2. All users must use Two Factor to log in. (Exceptions can be set with a constant or filter.)
 3. Users who do not have a different method selected in their two-factor settings will receive time-based, one-time passcodes by email.
 
-The plugin also locks down the XML-RPC / REST API-login path. (A named allowlist of service accounts can be added with a constant or filter.) 
+The plugin also locks down the XML-RPC / REST API-login path. (A named allowlist of service accounts can be added with a constant or filter.)
 
-On multisite the plugin can be **network-activated or activated per-site**, and an optional `mu-loader.php` file can be moved to the `/mu-plugins` folder to makes it un-deactivatable within the WordPress admin interface.
+On multisite the plugin can be **network-activated or activated per-site**, and an optional `mu-loader.php` file can be moved to the `/mu-plugins` folder to make it un-deactivatable within the WordPress admin interface.
 
-Require Email 2FA's dependency on two-factor is *soft*: the Require Email 2FA plugin activates on its own and does nothing until Two Factor is active. It only displays a prominent admin notice with a one-click installer for the Two Factor plugin. Administrators should pre-install and activate Two-Factor or do so immediately after installing and activating Require Email 2FA. Then Require Email 2FA will automatically select emailed passcodes as the primary (default) 2FA method for all users who do not have a different one selected. This enforcement will continue for all existing and new users as long as Require Email 2FA is active.
+Require Email 2FA's dependency on Two Factor is *soft*: the Require Email 2FA plugin activates on its own and does nothing until Two Factor is active. It only displays a prominent admin notice with a one-click installer for the Two Factor plugin. Administrators should pre-install and activate Two Factor or do so immediately after installing and activating Require Email 2FA. Then Require Email 2FA will automatically select emailed passcodes as the primary (default) 2FA method for all users who do not have a different one selected. This enforcement will continue for all existing and new users as long as Require Email 2FA is active.
 
 ---
 
@@ -267,7 +267,7 @@ The plugin checks this constant at load time and registers nothing when it's set
   allowlisted service account.
 
 > [!TIP]
-> Ensure your WordPress site and/or host's method for sending transactional emails is properly configured and effective. Otherwise, you and your users may be locked out of the site when the emails passcodes do not arrive or land in spam folders. 
+> Ensure your WordPress site and/or host's method for sending transactional emails is properly configured and effective. Otherwise, you and your users may be locked out of the site when the email passcodes do not arrive or land in spam folders.
 
 ---
 
