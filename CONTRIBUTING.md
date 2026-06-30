@@ -23,8 +23,6 @@ Run:
 
 ```sh
 composer check
-php playground/build-blueprint.php
-git diff --exit-code -- playground/blueprint.json
 ```
 
 If you are validating coverage locally, use PCOV or Xdebug:
@@ -40,14 +38,12 @@ vendor/bin/phpunit --coverage-text
 - Avoid adding UI, options, database tables, cron jobs, or remote calls unless there is a strong reason.
 - Keep configuration operator-controlled through constants or filters.
 - Add or update tests for security-critical behavior.
-- Regenerate `playground/blueprint.json` after changing `force-email-two-factor.php`.
 
 ## Pull request checklist
 
 - [ ] I explained the behavior change and why it is needed.
 - [ ] I added/updated tests where appropriate.
 - [ ] `composer check` passes.
-- [ ] `playground/blueprint.json` is regenerated and has no drift.
 - [ ] Documentation is updated when behavior, requirements, or rollout guidance changes.
 
 ## Reporting security issues

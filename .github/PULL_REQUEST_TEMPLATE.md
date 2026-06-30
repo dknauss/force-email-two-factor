@@ -13,9 +13,7 @@
 ## Verification
 
 - [ ] `composer check`
-- [ ] `php playground/build-blueprint.php`
-- [ ] `git diff --exit-code -- playground/blueprint.json`
-- [ ] Manual/Playground smoke test, if behavior changed
+- [ ] Manual smoke test of a real login flow, if behavior changed
 
 ## Security-sensitive checklist
 

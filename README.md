@@ -5,7 +5,6 @@
 [![WordPress](https://img.shields.io/badge/WordPress-6.5%2B-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/)
 [![PHP](https://img.shields.io/badge/PHP-7.2%2B-777bb4?logo=php&logoColor=white)](https://www.php.net/)
 [![Requires Plugin: Two Factor](https://img.shields.io/badge/requires-Two%20Factor-3858e9.svg)](https://wordpress.org/plugins/two-factor/)
-[![Open in WordPress Playground](https://img.shields.io/badge/WordPress_Playground-Try_it_live-3858e9?logo=wordpress&logoColor=white)][playground]
 
 A WordPress plugin that makes two-factor authentication mandatory for every user,
 and locks down the XML-RPC / REST API-login path to a named allowlist of service
@@ -14,15 +13,6 @@ an optional `mu-loader.php` makes it un-deactivatable.
 
 It builds on the [Two Factor plugin](https://wordpress.org/plugins/two-factor/) —
 a declared `Requires Plugins` dependency that must be installed and active.
-
-**▶ [Try it live in WordPress Playground][playground]** — boots a multisite with
-the full 2FA stack (Two Factor, WebAuthn, mail logging) already wired up; no local
-install needed. The Playground blueprint starts at the normal username/password
-screen (`admin` / `password`), then uses a demo-only helper to show the current
-email 2FA code on the challenge screen because the browser demo has no real
-mailbox. See [`playground/`](playground/) for details.
-
-[playground]: https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/dknauss/Require-Email-2FA/main/playground/blueprint.json
 
 ---
 
@@ -372,12 +362,10 @@ Before tagging a release:
 - [ ] Update `Version` and `FORCE_2FA_LOADED` in `force-email-two-factor.php`.
 - [ ] Update `Stable tag`, changelog, and compatibility fields in `readme.txt`.
 - [ ] Update README badges or examples if version/support claims changed.
-- [ ] Run `php playground/build-blueprint.php` and confirm
-      `playground/blueprint.json` has no drift.
 - [ ] Run `composer check`.
 - [ ] Run `vendor/bin/phpunit --coverage-text` with PCOV or Xdebug if validating
       local coverage.
-- [ ] Smoke-test the Playground blueprint and at least one real login flow.
+- [ ] Smoke-test at least one real login flow (sign in → email 2FA challenge → in).
 - [ ] Tag the release and publish release notes from the changelog.
 
 ## License
