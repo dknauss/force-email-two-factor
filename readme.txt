@@ -1,5 +1,5 @@
 === Require Email 2FA ===
-Contributors: dknauss
+Contributors: dpknauss
 Tags: two-factor, 2fa, security, authentication, login
 Requires at least: 6.5
 Tested up to: 7.0
