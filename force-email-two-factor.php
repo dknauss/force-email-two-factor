@@ -175,14 +175,12 @@ function force_2fa_user_is_exempt( WP_User $user ) {
  *                  when that provider exists.
  */
 function force_2fa_filter_enabled_providers( $enabled_providers, $user_id ) {
-	// Plugin gone / provider unregistered: do not touch the list. Defensive guard
-	// for when the Two Factor plugin is absent; under unit tests the provider class
-	// is always present, so this safety branch is coverage-exempt.
-	// @codeCoverageIgnoreStart
+	// Plugin gone / provider unregistered: do not touch the list. (Defensive guard
+	// for when the Two Factor plugin is absent; unit tests always have the provider
+	// class present, so this safety branch stays uncovered by design.)
 	if ( ! class_exists( 'Two_Factor_Email' ) ) {
 		return $enabled_providers;
 	}
-	// @codeCoverageIgnoreEnd
 
 	// Excluded roles: don't force Email (their own 2FA, if any, is untouched).
 	$user = get_userdata( $user_id );
