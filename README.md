@@ -1,9 +1,10 @@
 # Force Email Two-Factor (Enforcement)
 
+[![CI](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml/badge.svg)](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml)
 [![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](LICENSE)
 ![WordPress](https://img.shields.io/badge/WordPress-5.6%2B-21759b?logo=wordpress&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-7.2%2B-777bb4?logo=php&logoColor=white)
-![Version](https://img.shields.io/badge/version-1.5.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.6.0-green.svg)
 [![Open in WordPress Playground](https://img.shields.io/badge/WordPress_Playground-Try_it_live-3858e9?logo=wordpress&logoColor=white)][playground]
 
 A WordPress plugin that makes two-factor authentication mandatory for every user,
@@ -216,6 +217,25 @@ the line (or set it to `false`) to re-enable enforcement.
   allowlisted service account.
 
 ---
+
+## Development
+
+Unit tests cover the security-critical decision logic — role exclusions, the
+API-login allowlist, and both filter callbacks — with a zero-dependency stub
+bootstrap (no WordPress install required):
+
+```sh
+composer install
+composer test        # or: vendor/bin/phpunit
+```
+
+CI ([GitHub Actions](.github/workflows/ci.yml)) lints on PHP 7.2–8.4 and runs the
+suite on PHP 8.2–8.4 for every push and pull request.
+
+The config constants (`FORCE_2FA_EXCLUDED_ROLES`, `FORCE_2FA_API_LOGIN_ALLOWLIST`)
+are read through filter accessors (`force_2fa_excluded_roles`,
+`force_2fa_api_login_allowlist`), so values are overridable at runtime and
+injectable in tests.
 
 ## License
 

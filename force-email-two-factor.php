@@ -9,7 +9,7 @@
  *              service accounts, and only when they authenticate with an
  *              Application Password.
  * Author:           Dan Knauss
- * Version:          1.5.0
+ * Version:          1.6.0
  * Network:          false
  * Requires Plugins: two-factor
  * License:          GPL-2.0-or-later
@@ -74,7 +74,7 @@ if ( defined( 'FORCE_2FA_DISABLE' ) && FORCE_2FA_DISABLE ) {
 if ( defined( 'FORCE_2FA_LOADED' ) ) {
 	return;
 }
-define( 'FORCE_2FA_LOADED', '1.5.0' );
+define( 'FORCE_2FA_LOADED', '1.6.0' );
 
 /**
  * Roles to EXCLUDE from forced two-factor.
@@ -109,21 +109,35 @@ define( 'FORCE_2FA_LOADED', '1.5.0' );
 const FORCE_2FA_EXCLUDED_ROLES = array();
 
 /**
+ * Effective list of excluded role slugs.
+ *
+ * Defaults to the FORCE_2FA_EXCLUDED_ROLES constant; the 'force_2fa_excluded_roles'
+ * filter lets code override it at runtime (e.g. environment-specific config) and
+ * makes the value injectable for unit tests.
+ *
+ * @return string[]
+ */
+function force_2fa_excluded_roles() {
+	return (array) apply_filters( 'force_2fa_excluded_roles', FORCE_2FA_EXCLUDED_ROLES );
+}
+
+/**
  * Whether a user is exempt from forced two-factor.
  *
  * Exempt only when the user has at least one role AND all of their roles are in
- * FORCE_2FA_EXCLUDED_ROLES. Users with no role are never exempted (fail secure).
- * The 'force_2fa_user_is_exempt' filter allows programmatic overrides for edge
- * cases (e.g. a specific user ID) without editing the role list.
+ * the excluded list. Users with no role are never exempted (fail secure). The
+ * 'force_2fa_user_is_exempt' filter allows programmatic overrides for edge cases
+ * (e.g. a specific user ID) without editing the role list.
  *
  * @param WP_User $user The resolved user.
  * @return bool True if forced 2FA should be skipped for this user.
  */
 function force_2fa_user_is_exempt( WP_User $user ) {
-	$roles  = array_map( 'strtolower', (array) $user->roles );
-	$exempt = ! empty( $roles )
-		&& ! empty( FORCE_2FA_EXCLUDED_ROLES )
-		&& empty( array_diff( $roles, array_map( 'strtolower', FORCE_2FA_EXCLUDED_ROLES ) ) );
+	$excluded = array_map( 'strtolower', force_2fa_excluded_roles() );
+	$roles    = array_map( 'strtolower', (array) $user->roles );
+	$exempt   = ! empty( $roles )
+		&& ! empty( $excluded )
+		&& empty( array_diff( $roles, $excluded ) );
 
 	/**
 	 * Filter the per-user exemption from forced two-factor.
@@ -155,39 +169,35 @@ function force_2fa_user_is_exempt( WP_User $user ) {
  * we never inject a provider key the plugin can't resolve.
  *
  * @param string[] $enabled_providers Provider class-name keys enabled for the user.
- * @param int      $user_id           User ID (unused — policy is uniform).
+ * @param int      $user_id           User ID.
  * @return string[] The enabled providers, guaranteed to include Two_Factor_Email
  *                  when that provider exists.
  */
-add_filter(
-	'two_factor_enabled_providers_for_user',
-	function ( $enabled_providers, $user_id ) {
-		// Plugin gone / provider unregistered: do not touch the list.
-		if ( ! class_exists( 'Two_Factor_Email' ) ) {
-			return $enabled_providers;
-		}
-
-		// Excluded roles: don't force Email (their own 2FA, if any, is untouched).
-		$user = get_userdata( $user_id );
-		if ( $user && force_2fa_user_is_exempt( $user ) ) {
-			return $enabled_providers;
-		}
-
-		// Stored user meta is normally an array, but guard against malformed values.
-		if ( ! is_array( $enabled_providers ) ) {
-			$enabled_providers = array();
-		}
-
-		// Strict in_array(): these are class-name strings, so avoid loose matching.
-		if ( ! in_array( 'Two_Factor_Email', $enabled_providers, true ) ) {
-			$enabled_providers[] = 'Two_Factor_Email';
-		}
-
+function force_2fa_filter_enabled_providers( $enabled_providers, $user_id ) {
+	// Plugin gone / provider unregistered: do not touch the list.
+	if ( ! class_exists( 'Two_Factor_Email' ) ) {
 		return $enabled_providers;
-	},
-	10,
-	2
-);
+	}
+
+	// Excluded roles: don't force Email (their own 2FA, if any, is untouched).
+	$user = get_userdata( $user_id );
+	if ( $user && force_2fa_user_is_exempt( $user ) ) {
+		return $enabled_providers;
+	}
+
+	// Stored user meta is normally an array, but guard against malformed values.
+	if ( ! is_array( $enabled_providers ) ) {
+		$enabled_providers = array();
+	}
+
+	// Strict in_array(): these are class-name strings, so avoid loose matching.
+	if ( ! in_array( 'Two_Factor_Email', $enabled_providers, true ) ) {
+		$enabled_providers[] = 'Two_Factor_Email';
+	}
+
+	return $enabled_providers;
+}
+add_filter( 'two_factor_enabled_providers_for_user', 'force_2fa_filter_enabled_providers', 10, 2 );
 
 /**
  * Service-account allowlist for non-interactive API logins.
@@ -240,16 +250,29 @@ const FORCE_2FA_API_LOGIN_ALLOWLIST = array(
 );
 
 /**
+ * Effective API-login allowlist.
+ *
+ * Defaults to the FORCE_2FA_API_LOGIN_ALLOWLIST constant; the
+ * 'force_2fa_api_login_allowlist' filter lets code override it at runtime and
+ * makes the value injectable for unit tests.
+ *
+ * @return array<int|string>
+ */
+function force_2fa_api_login_allowlist() {
+	return (array) apply_filters( 'force_2fa_api_login_allowlist', FORCE_2FA_API_LOGIN_ALLOWLIST );
+}
+
+/**
  * Decide whether a given user is on the API-login allowlist.
  *
  * Compares against both the numeric ID and the (lowercased) user_login so either
- * form may appear in FORCE_2FA_API_LOGIN_ALLOWLIST.
+ * form may appear in the allowlist.
  *
  * @param WP_User $user The resolved user.
  * @return bool True if the user matches an allowlist entry.
  */
 function force_2fa_user_is_api_allowlisted( WP_User $user ) {
-	foreach ( FORCE_2FA_API_LOGIN_ALLOWLIST as $entry ) {
+	foreach ( force_2fa_api_login_allowlist() as $entry ) {
 		if ( is_int( $entry ) || ctype_digit( (string) $entry ) ) {
 			if ( (int) $entry === (int) $user->ID ) {
 				return true;
@@ -276,31 +299,28 @@ function force_2fa_user_is_api_allowlisted( WP_User $user ) {
  * @param WP_User|int|null $user   The authenticating user (object or ID).
  * @return bool True only for an allowlisted account using an Application Password.
  */
-add_filter(
-	'two_factor_user_api_login_enable',
-	function ( $enable, $user ) {
-		unset( $enable ); // We recompute the decision from scratch below.
+function force_2fa_filter_api_login_enable( $enable, $user ) {
+	unset( $enable ); // We recompute the decision from scratch below.
 
-		// Resolve to a WP_User whether an object or an ID was passed.
-		if ( ! $user instanceof WP_User ) {
-			$user = get_userdata( (int) $user );
-		}
+	// Resolve to a WP_User whether an object or an ID was passed.
+	if ( ! $user instanceof WP_User ) {
+		$user = get_userdata( (int) $user );
+	}
 
-		if ( ! $user || empty( $user->user_login ) ) {
-			return false; // Unknown user → deny the API bypass.
-		}
+	if ( ! $user || empty( $user->user_login ) ) {
+		return false; // Unknown user → deny the API bypass.
+	}
 
-		// (b) Require an Application Password for this request — a real-password
-		// API login never satisfies this, so leaked passwords can't be used here.
-		if ( ! did_action( 'application_password_did_authenticate' ) ) {
-			return false;
-		}
+	// (b) Require an Application Password for this request — a real-password
+	// API login never satisfies this, so leaked passwords can't be used here.
+	if ( ! did_action( 'application_password_did_authenticate' ) ) {
+		return false;
+	}
 
-		// (a) ...and only for named service accounts.
-		return force_2fa_user_is_api_allowlisted( $user );
-	},
-	10,
-	2
+	// (a) ...and only for named service accounts.
+	return force_2fa_user_is_api_allowlisted( $user );
+}
+add_filter( 'two_factor_user_api_login_enable', 'force_2fa_filter_api_login_enable', 10, 2
 );
 
 /*

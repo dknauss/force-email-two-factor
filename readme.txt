@@ -5,7 +5,7 @@ Requires at least: 5.6
 Tested up to: 6.5
 Requires PHP: 7.2
 Requires Plugins: two-factor
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,14 @@ No. It appends the Email provider as a floor; any stronger factor the user
 configured stays in place and remains their primary method.
 
 == Changelog ==
+
+= 1.6.0 =
+* Add filter accessors `force_2fa_excluded_roles` and `force_2fa_api_login_allowlist`
+  so the config constants can be overridden at runtime and injected in tests.
+* Extract the filter callbacks into named functions for testability.
+* Add a PHPUnit unit-test suite (zero-dependency stub bootstrap) covering the
+  exclusion logic, allowlist matching, and both filter callbacks.
+* Add GitHub Actions CI: lint on PHP 7.2–8.4, unit tests on PHP 8.2–8.4.
 
 = 1.5.0 =
 * Declare the Two Factor plugin as a hard dependency via the `Requires Plugins`

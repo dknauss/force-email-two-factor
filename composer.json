@@ -1,0 +1,16 @@
+{
+    "name": "dknauss/force-email-two-factor",
+    "description": "Enforce email two-factor for all users via the Two Factor plugin, with per-role exclusions and a hardened API-login allowlist.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "php -l force-email-two-factor.php && php -l mu-loader.php"
+    }
+}
