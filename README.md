@@ -1,7 +1,6 @@
 # Force Email Two-Factor (Enforcement)
 
 [![CI](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml/badge.svg)](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/dknauss/force-email-two-factor/graph/badge.svg)](https://codecov.io/gh/dknauss/force-email-two-factor)
 [![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](LICENSE)
 ![WordPress](https://img.shields.io/badge/WordPress-6.5%2B-21759b?logo=wordpress&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-7.2%2B-777bb4?logo=php&logoColor=white)
@@ -254,7 +253,7 @@ request:
 - **PHPCS / PHPCompatibility** — coding standards + the PHP 7.2 floor
 - **PHPUnit** — unit + integration, PHP 8.2–8.4
 - **coverage** — PHPUnit coverage (PCOV); summary in the job's GitHub summary,
-  clover uploaded as an artifact (and to Codecov if the repo is enabled there)
+  clover uploaded as an artifact
 - **Playground integration** — boots a real WordPress + the real Two Factor
   plugin headlessly and asserts enforcement end-to-end (see
   [`playground/ci-blueprint.json`](playground/ci-blueprint.json))

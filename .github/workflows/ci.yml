@@ -92,12 +92,6 @@ jobs:
         with:
           name: coverage-clover
           path: coverage.xml
-      - name: Upload to Codecov (no-op unless the repo is enabled there)
-        uses: codecov/codecov-action@v4
-        continue-on-error: true
-        with:
-          files: coverage.xml
-          fail_ci_if_error: false
 
   playground-integration:
     name: Playground integration (real Two Factor)
