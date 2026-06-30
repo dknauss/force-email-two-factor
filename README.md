@@ -187,10 +187,18 @@ the line (or set it to `false`) to re-enable enforcement.
 
 ---
 
-## Requirements
+## Requirements & dependencies
 
-- WordPress with the **Two Factor** plugin active.
-- Working outbound email (SMTP) for the Email provider.
+- **Required:** the [Two Factor](https://wordpress.org/plugins/two-factor/) plugin
+  (`two-factor`). Declared via the `Requires Plugins` header (WP 6.5+), so
+  WordPress blocks activation until Two Factor is installed and active.
+- **Recommended:** [WebAuthn Provider for Two Factor](https://wordpress.org/plugins/two-factor-provider-webauthn/)
+  (`two-factor-provider-webauthn`) for passkeys / hardware keys. Optional — this
+  plugin works without it.
+- **Testing only:** [WP Mail Logging](https://wordpress.org/plugins/wp-mail-logging/)
+  (`wp-mail-logging`) to read 2FA email codes where there is no real mail server
+  (e.g. Playground). Not needed in production.
+- Working outbound email (SMTP) for the Email provider in production.
 - Application Passwords enabled (WordPress core, on by default over HTTPS) for any
   allowlisted service account.
 

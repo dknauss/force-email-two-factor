@@ -4,7 +4,8 @@ Tags: two-factor, 2fa, security, authentication, login
 Requires at least: 5.6
 Tested up to: 6.5
 Requires PHP: 7.2
-Stable tag: 1.4.0
+Requires Plugins: two-factor
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +32,16 @@ It does two things:
    account is on an explicit allowlist and the request authenticated with an
    Application Password (never the real login password). Everyone else is denied
    on the API path.
+
+= Plugin dependencies =
+
+* **Required:** Two Factor (`two-factor`). Declared via the `Requires Plugins`
+  header, so WordPress 6.5+ blocks activation until it is installed and active.
+* **Recommended:** WebAuthn Provider for Two Factor (`two-factor-provider-webauthn`)
+  for passkeys / hardware security keys. Optional — this plugin works without it.
+* **Testing only:** WP Mail Logging (`wp-mail-logging`) to read 2FA email codes in
+  environments with no real mail server (e.g. WordPress Playground). Not needed in
+  production.
 
 = Features =
 
@@ -91,6 +102,13 @@ No. It appends the Email provider as a floor; any stronger factor the user
 configured stays in place and remains their primary method.
 
 == Changelog ==
+
+= 1.5.0 =
+* Declare the Two Factor plugin as a hard dependency via the `Requires Plugins`
+  header (WP 6.5+), so activation is blocked until it is present and active.
+* Document dependency tiers: Two Factor (required), WebAuthn provider
+  (recommended), WP Mail Logging (testing only).
+* Add a WordPress Playground multisite test blueprint.
 
 = 1.4.0 =
 * Repackage as a regular plugin supporting Network Activate or per-site

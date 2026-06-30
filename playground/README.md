@@ -6,12 +6,18 @@ through enforcement in the browser.
 
 It installs and network-activates:
 
-- **Two Factor** (`two-factor`)
-- **WebAuthn Provider for Two Factor** (`two-factor-provider-webauthn`) — passkeys / hardware keys
-- **WP Mail Logging** (`wp-mail-logging`) — captures the 2FA email so you can read the code
+- **Two Factor** (`two-factor`) — the **required** dependency (declared in this
+  plugin's `Requires Plugins` header)
+- **WebAuthn Provider for Two Factor** (`two-factor-provider-webauthn`) — recommended; passkeys / hardware keys
+- **WP Mail Logging** (`wp-mail-logging`) — testing aid; captures the 2FA email so you can read the code
 - **force-email-two-factor** — this plugin, inlined via `writeFile` (no external fetch)
 
 …then enables multisite and creates a subsite (`/site2/`).
+
+> The blueprint still installs all of these explicitly: WordPress's
+> `Requires Plugins` dependency feature only *gates activation* — it does not
+> auto-install missing plugins — and the WebAuthn/mail-logging plugins are
+> companions, not declared dependencies.
 
 ## Run it
 

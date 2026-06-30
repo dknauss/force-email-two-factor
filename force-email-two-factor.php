@@ -8,11 +8,18 @@
  *              Restricts the XML-RPC / REST API-login path to an allowlist of
  *              service accounts, and only when they authenticate with an
  *              Application Password.
- * Author:      Dan Knauss
- * Version:     1.4.0
- * Network:     false
- * License:     GPL-2.0-or-later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Author:           Dan Knauss
+ * Version:          1.5.0
+ * Network:          false
+ * Requires Plugins: two-factor
+ * License:          GPL-2.0-or-later
+ * License URI:      https://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Hard dependency: the Two Factor plugin (slug "two-factor"). The Requires
+ * Plugins header (WP 6.5+) blocks activation until it is present and active.
+ * Recommended companion: "two-factor-provider-webauthn" (passkeys / hardware
+ * keys) — optional; this plugin works without it. "wp-mail-logging" is only a
+ * testing aid for reading 2FA codes without a real mail server.
  *
  * ---------------------------------------------------------------------------
  * INSTALLATION
@@ -67,7 +74,7 @@ if ( defined( 'FORCE_2FA_DISABLE' ) && FORCE_2FA_DISABLE ) {
 if ( defined( 'FORCE_2FA_LOADED' ) ) {
 	return;
 }
-define( 'FORCE_2FA_LOADED', '1.4.0' );
+define( 'FORCE_2FA_LOADED', '1.5.0' );
 
 /**
  * Roles to EXCLUDE from forced two-factor.
