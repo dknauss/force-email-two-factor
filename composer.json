@@ -1,5 +1,5 @@
 {
-    "name": "dknauss/force-email-two-factor",
+    "name": "dknauss/require-email-2fa",
     "description": "Enforce email two-factor for all users via the Two Factor plugin, with per-role exclusions and a hardened API-login allowlist.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",

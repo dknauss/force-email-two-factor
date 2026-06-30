@@ -1,6 +1,6 @@
 # Require Email 2FA
 
-[![CI](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml/badge.svg)](https://github.com/dknauss/force-email-two-factor/actions/workflows/ci.yml)
+[![CI](https://github.com/dknauss/Require-Email-2FA/actions/workflows/ci.yml/badge.svg)](https://github.com/dknauss/Require-Email-2FA/actions/workflows/ci.yml)
 [![License: GPL-2.0-or-later](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 [![WordPress](https://img.shields.io/badge/WordPress-6.5%2B-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/)
 [![PHP](https://img.shields.io/badge/PHP-7.2%2B-777bb4?logo=php&logoColor=white)](https://www.php.net/)
@@ -22,7 +22,7 @@ screen (`admin` / `password`), then uses a demo-only helper to show the current
 email 2FA code on the challenge screen because the browser demo has no real
 mailbox. See [`playground/`](playground/) for details.
 
-[playground]: https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/dknauss/force-email-two-factor/main/playground/blueprint.json
+[playground]: https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/dknauss/Require-Email-2FA/main/playground/blueprint.json
 
 ---
 

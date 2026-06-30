@@ -3,7 +3,7 @@
  * Plugin Name: Require Email 2FA
  * Description:      Requires the Two Factor plugin and makes emailed 2FA codes mandatory for all users by default.
  * Author:           Dan Knauss
- * Version:          1.6.1
+ * Version:          1.7.0
  * Network:          false
  * Requires PHP:     7.2
  * Requires Plugins: two-factor
@@ -75,7 +75,7 @@ if ( defined( 'FORCE_2FA_DISABLE' ) && FORCE_2FA_DISABLE ) {
 if ( defined( 'FORCE_2FA_LOADED' ) ) {
 	return;
 }
-define( 'FORCE_2FA_LOADED', '1.6.1' );
+define( 'FORCE_2FA_LOADED', '1.7.0' );
 // @codeCoverageIgnoreEnd
 
 /**

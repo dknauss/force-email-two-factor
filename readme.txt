@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.2
 Requires Plugins: two-factor
-Stable tag: 1.6.1
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,11 +150,31 @@ Application Passwords can skip the interactive challenge.
 
 == Changelog ==
 
+= 1.7.0 =
+* No plugin runtime changes since 1.6.1 — this release is packaging and docs only.
+* Playground: fix the demo login flow and the on-challenge 2FA-code display.
+* README: rework badges (drop the static version badge; add a "Requires Two
+  Factor" badge) and add a maintenance/release checklist.
+* Update repository URLs after the GitHub repo was renamed to `Require-Email-2FA`
+  (badges, Playground one-click link, issue-template links, Composer name).
+* Correct the 1.6.1 changelog below to reflect everything that release shipped.
+
 = 1.6.1 =
+* Rename the plugin to "Require Email 2FA".
+* Harden configuration handling: normalize role and allowlist values from the
+  constants and filters, ignoring null, non-scalar, and empty entries without
+  emitting PHP warnings.
+* Add a WordPress Playground demo helper that prints the email 2FA code on the
+  challenge screen (Playground/demo environments only — not for production).
+* Add a production rollout checklist and expand the FAQ (runtime overrides for
+  the `force_2fa_excluded_roles` / `force_2fa_api_login_allowlist` filters, and a
+  known-limitations entry).
+* Add a "Compatibility & interaction with other 2FA setups" section.
 * Shorten and clarify the plugin description.
 * Set "Requires at least" to 6.5 to match the `Requires Plugins` dependency
   gating (the header is ignored on older WordPress) and document this in the FAQ.
 * Fix stale "must-use plugin" wording in the readme.
+* Drop the Codecov badge/upload; keep coverage reporting in CI.
 
 = 1.6.0 =
 * Add filter accessors `force_2fa_excluded_roles` and `force_2fa_api_login_allowlist`
