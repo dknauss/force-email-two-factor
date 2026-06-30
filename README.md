@@ -17,7 +17,9 @@ a declared `Requires Plugins` dependency that must be installed and active.
 
 **▶ [Try it live in WordPress Playground][playground]** — boots a multisite with
 the full 2FA stack (Two Factor, WebAuthn, mail logging) already wired up; no local
-install needed. See [`playground/`](playground/) for details.
+install needed. The Playground blueprint includes a demo-only helper that shows
+the current email 2FA code on the login challenge screen, since the pre-created
+browser user has no real mailbox. See [`playground/`](playground/) for details.
 
 [playground]: https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/dknauss/force-email-two-factor/main/playground/blueprint.json
 
