@@ -58,7 +58,7 @@ add_action(
 		?>
 		<div class="message" style="border-left-color:#3858e9;">
 			<p><strong>Playground demo code:</strong> <code style="font-size:1.25em;"><?php echo esc_html( $latest['token'] ); ?></code></p>
-			<p class="description">This code is shown only by the Playground blueprint helper because this browser demo has no real mailbox.</p>
+			<p class="description">This code is shown only by the Playground blueprint helper because this browser demo has no real mailbox. Codes expire after 15 minutes; if one was just rejected, a fresh code is shown above (or use &ldquo;Resend Code&rdquo;).</p>
 		</div>
 		<?php
 	},
