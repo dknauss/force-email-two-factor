@@ -4,7 +4,7 @@ Tags: two-factor, 2fa, security, authentication, login
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -159,6 +159,17 @@ that. API bypasses are intentionally narrow: only allowlisted accounts using
 Application Passwords can skip the interactive challenge.
 
 == Changelog ==
+
+= 1.8.1 =
+* Plugin header: add `Plugin URI` and `Text Domain`; set the author to Pixel
+  (with `Author URI: https://wearepixel.ca`); remove the invalid `Network: false`
+  header (it may only be `true`, otherwise omitted) flagged by Plugin Check.
+* readme: correct the `Contributors` username to `dpknauss`.
+* Add an interactive WordPress Playground "try it live" demo that lands on the
+  Plugins screen with the guided Two Factor install notice and sample users.
+* Tooling: enable the `WordPress.WP.I18n` sniff with a pinned text domain; bump
+  pinned GitHub Actions (checkout, setup-node, upload-artifact).
+* No plugin runtime or behavior changes.
 
 = 1.8.0 =
 * Replace the hard `Requires Plugins: two-factor` activation gate with a soft
